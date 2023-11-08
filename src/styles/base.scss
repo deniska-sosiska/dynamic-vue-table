@@ -1,3 +1,13 @@
 .text-center {
     text-align: center;
 }
+
+table {
+    th, td {
+        min-width: 100px;
+    }
+
+    td.empty {
+        text-align: center;
+    }
+}

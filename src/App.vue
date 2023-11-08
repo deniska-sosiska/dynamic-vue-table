@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <h1 class="text-center">
-            {{ nameIt }}
-        </h1>
-    </div>
+    <main class="">
+        <TableMain />
+    </main>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import FormAdd from '@/components/FormAdd.vue';
+    import TableMain from '@/components/TableMain.vue';
 
     export default defineComponent({
-        data: () => ({
-            nameIt: 'Hello World!',
-        }),
+        name: 'App',
+        components: {
+            TableMain,
+        },
+        data: () => ({}),
     });
 </script>

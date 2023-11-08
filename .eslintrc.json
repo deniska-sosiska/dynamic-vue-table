@@ -10,11 +10,14 @@
     "plugin:vue/vue3-recommended",
     "plugin:vue/vue3-essential"
   ],
+
+  "parser": "vue-eslint-parser",
   "parserOptions": {
+    "parser": "@typescript-eslint/parser",
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["vue"],
+  "plugins": ["vue", "@typescript-eslint"],
 
   "rules": {
     "no-var": "error",
@@ -46,6 +49,16 @@
     "vue/eqeqeq": "warn",
     "vue/html-indent": ["warn", 4],
     "vue/script-indent": ["error", 4, { "baseIndent": 1 }],
+    "vue/no-unused-components": ["warn"],
+    "vue/singleline-html-element-content-newline": ["off"],
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": {
+        "max": 3
+      },
+      "multiline": {
+        "max": 1
+      }
+    }],
     "vue/html-self-closing": ["error", {
       "html": {
         "normal": "never",
