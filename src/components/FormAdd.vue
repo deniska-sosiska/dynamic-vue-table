@@ -105,6 +105,7 @@
 
                     return this.insertNewField(uniqueHeaderTitle);
                 }
+
                 this.insertNewField();
             },
 
@@ -112,7 +113,7 @@
                 this.newRecord.push({
                     _id: uid(),
                     label: label ?? this.getRandomName(),
-                    field: '',
+                    field: 'Lorem Ipsum',
                 });
             },
 

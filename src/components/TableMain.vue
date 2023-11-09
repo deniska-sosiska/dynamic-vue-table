@@ -35,6 +35,8 @@
     import { EventBus } from '@/services/eventBus';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
 
+    const TABLE_KEY = 'table-key-';
+
     export default defineComponent({
         name: 'TableMain',
         components: {
@@ -44,24 +46,7 @@
 
         data: () => ({
             tableUniqueLabelsStore: useTableUniqueLabelsStore(),
-            tableItems: [
-                {
-                    _id: uid(),
-                    name: 'hello',
-                    email: 'test@test.com',
-                },
-                {
-                    _id: uid(),
-                    name: 'second item',
-                    email: 'call@example.com',
-                    description: 'Lorem Ipsum'
-                },
-                {
-                    _id: uid(),
-                    name: 'third item',
-                    description: 'Lorem Ipsum'
-                },
-            ] as ITableItem[],
+            tableItems: [] as ITableItem[],
         }),
 
         computed: {
@@ -73,7 +58,6 @@
         watch: {
             tableItems: {
                 deep: true,
-                immediate: true,
                 handler() {
                     const ul = this.getTableUniqueLabels();
                     this.tableUniqueLabelsStore.updateTableUniqueLabelsState(ul);
@@ -82,6 +66,17 @@
         },
 
         created() {
+            const localStorageKey = Object.keys(localStorage);
+
+            for (const key of localStorageKey) {
+                if (!key.startsWith(TABLE_KEY)) { continue; }
+
+                this.tableItems.push(
+                    JSON.parse(localStorage.getItem(key) as string),
+                );
+            }
+
+
             EventBus.$on<Omit<ITableItem, '_id'>>(eventBusEmitNames.CREATE_NEW_RECORD, (newRecord) => {
                 this.tableItems.push({ _id: uid(), ...newRecord });
             });
@@ -104,6 +99,14 @@
             removeTableItem(itemID: string) {
                 const index = this.tableItems.findIndex((item) => item._id === itemID);
                 this.tableItems.splice(index, 1);
+            },
+
+            setToLocalStorage(item: ITableItem) {
+                localStorage.setItem(TABLE_KEY + item._id, JSON.stringify(item));
+            },
+
+            removeFromLocalStorage(itemID: string) {
+                localStorage.removeItem(TABLE_KEY + itemID);
             },
         },
     });
