@@ -17,7 +17,7 @@
                     @remove-record-field="removeRecordField"
                 />
 
-                <div class="button-group">
+                <footer class="button-group">
                     <button
                         type="button"
                         class="outline"
@@ -29,7 +29,7 @@
                     <button type="submit">
                         Submit
                     </button>
-                </div>
+                </footer>
             </form>
         </article>
     </div>
@@ -124,7 +124,11 @@
 
             getRandomName() {
                 const randomNames = ['Flower', 'Butterfly', 'Mystique', 'Luminance', 'Dream'];
-                return randomNames[Math.floor(Math.random() * randomNames.length)];
+                const name = randomNames[Math.floor(Math.random() * randomNames.length)];
+                if (this.uniqueLabelsByCurrentRecord.has(name)) {
+                    return uid();
+                }
+                return name;
             },
 
             triggerValidation(withFocus?: boolean) {

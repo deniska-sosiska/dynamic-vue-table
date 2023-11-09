@@ -175,10 +175,10 @@
                 this.saveNewRecordDetails('field');
             },
 
-            changeLabelEditingStatus() {
+            changeLabelEditingStatus(withoutFocus?: boolean) {
                 this.isLabelEditing = !this.isLabelEditing;
 
-                if (this.isLabelEditing) {
+                if (this.isLabelEditing && !withoutFocus) {
                     nextTick(() => (this.$refs.labelInputRef as HTMLInputElement)?.focus());
                 }
             },
@@ -212,13 +212,22 @@
                     nextTick(() => (this.$refs.fieldInputRef as HTMLInputElement)?.focus());
                 }
 
+                this.validateLabelValue();
+
                 if (this.isLabelEditing) {
-                    this.validateLabelValue();
                     if (!this.isLabelInvalid) {
                         this.saveNewRecordDetails('label');
-                        this.changeLabelEditingStatus();
+                        this.changeLabelEditingStatus(true);
+                    }
+                    return;
+                }
+
+                if (!this.isLabelEditing) {
+                    if (this.isLabelInvalid) {
+                        this.changeLabelEditingStatus(true);
                     }
                 }
+
             }
         },
     });

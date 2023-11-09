@@ -76,9 +76,9 @@
                 );
             }
 
-
             EventBus.$on<Omit<ITableItem, '_id'>>(eventBusEmitNames.CREATE_NEW_RECORD, (newRecord) => {
                 this.tableItems.push({ _id: uid(), ...newRecord });
+                this.setToLocalStorage(this.tableItems.at(-1)!);
             });
         },
 
