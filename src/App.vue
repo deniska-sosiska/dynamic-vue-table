@@ -1,5 +1,6 @@
 <template>
-    <main class="">
+    <main>
+        <FormAdd />
         <TableMain />
     </main>
 </template>
@@ -12,8 +13,8 @@
     export default defineComponent({
         name: 'App',
         components: {
+            FormAdd,
             TableMain,
         },
-        data: () => ({}),
     });
 </script>

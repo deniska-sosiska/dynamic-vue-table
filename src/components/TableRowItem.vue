@@ -10,6 +10,13 @@
         >
             {{ tableItem[headerTitle] ?? '- - -' }}
         </td>
+
+        <td
+            class="remove-item text-center"
+            @click="removeItem"
+        >
+            <img src="@/assets/remove.png" />
+        </td>
     </tr>
 </template>
 
@@ -17,6 +24,7 @@
     import { defineComponent, PropType } from 'vue';
     import { ITableItem } from '@/interfaces/ITableItem';
     import { ITableHeader } from '@/interfaces/ITableHeader';
+    import { eventBusEmitNames } from '@/services/eventBusEmitNames';
 
     export default defineComponent({
         name: 'TableRowItem',
@@ -35,5 +43,14 @@
                 required: true,
             },
         },
+
+        emits: [eventBusEmitNames.REMOVE_TABLE_ITEM],
+
+        methods: {
+            removeItem() {
+                this.$emit(eventBusEmitNames.REMOVE_TABLE_ITEM, this.tableItem._id);
+            }
+        },
     });
 </script>
+

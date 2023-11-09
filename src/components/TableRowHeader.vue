@@ -8,6 +8,9 @@
         >
             {{ title }}
         </th>
+        <th class="small-th text-center" scope="col">
+            <img src="@/assets/trash.png" alt="" />
+        </th>
     </tr>
 </template>
 
@@ -24,9 +27,3 @@
         },
     });
 </script>
-
-<style>
-    .small-th {
-        width: 24px;
-    }
-</style>

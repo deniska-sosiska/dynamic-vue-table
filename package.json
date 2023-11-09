@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@picocss/pico": "^1.5.10",
+    "pinia": "^2.1.7",
+    "tiny-emitter": "^2.1.0",
     "uid": "^2.0.2",
     "vue": "^3.3.8"
   },
