@@ -1,4 +1,7 @@
 export interface ITableItem {
     _id: string;
-    [key: string]: string | undefined;
+    _timestamp: number;
+    [key: string]: string | number | undefined;
 }
+
+export const TABLE_ITEM_STATIC_KEYS= new Set<keyof ITableItem>(['_id', '_timestamp']);

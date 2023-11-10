@@ -36,7 +36,7 @@ export const useStore = defineStore('index-store', {
             this.sortRules = copySortRules;
         },
 
-        updateFilterRules(label: IFilterRuleKey, value: IFilterRuleValue) {
+        updateFilterRules(label: IFilterRuleKey, value: IFilterRuleValue[]) {
             //
         }
     },

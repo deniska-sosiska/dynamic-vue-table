@@ -3,6 +3,7 @@ import { IValidationRule, TValidation } from '@/interfaces/IValidationRule';
 const rules: IValidationRule[] = [
     { label: 'name', validation: (value: string) => value.length > 3 },
     { label: 'email' },
+    { label: 'phone' },
 ];
 
 const validationRules: Map<string, TValidation | undefined> = new Map();

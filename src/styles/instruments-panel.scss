@@ -4,7 +4,6 @@ article.instruments-panel {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
     padding-block: calc(var(--spacing) * 1.5);
 
     :where(.instruments-panel-filter, .instruments-panel-sort) {

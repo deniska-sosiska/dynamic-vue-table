@@ -7,6 +7,7 @@
                 :key="item"
                 :label="item"
                 :is-checked="isChecked(item)"
+                :is-filter-instrument="isFilterInstrument"
                 @update-checked-value="updateSortList"
             />
         </ul>
@@ -15,10 +16,10 @@
 
 <script lang="ts">
     import { defineComponent, PropType } from 'vue';
-    import { ITableHeader } from '@/interfaces/ITableHeader';
     import InstrumentsListItem from '@/components/InstrumentsListItem.vue';
     import { useStore } from '@/store';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
+    import { IFilterRuleValue } from '@/interfaces/IFilterRules';
 
     export default defineComponent({
         name: 'InstrumentsList',
@@ -32,8 +33,12 @@
                 required: true,
             },
             headerItems: {
-                type: Array as PropType<ITableHeader[]>,
+                type: Array as PropType<IFilterRuleValue[]>,
                 required: true,
+            },
+            isFilterInstrument: {
+                type: Boolean,
+                default: false,
             },
         },
 
@@ -41,11 +46,12 @@
 
         data: () => ({
             store: useStore(),
-            checkedItems: [] as ITableHeader[],
+            checkedItems: [] as IFilterRuleValue[],
         }),
 
         methods: {
             updateCheckedValue(label: string, checked: boolean) {
+                this.isFilterInstrument;
                 if (checked) {
                     return this.checkedItems.push(label);
                 }

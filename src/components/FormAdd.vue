@@ -77,7 +77,7 @@
             const unsubscribe = this.$watch(
                 'store.getUniqueHeaderTitles',
                 () => {
-                    this.createNewField();
+                    this.initializeForm();
                     unsubscribe();
                 },
             );
@@ -161,13 +161,16 @@
             },
 
             makeSureAllRequiredFieldsExist() {
-                for (const key of validationRules.keys()) {
-                    if (this.uniqueLabelsByCurrentRecord.has(key)) {
-                        continue;
-                    }
+                const rules = Array.from(validationRules);
+                const missingFields = rules
+                    .map(([key]) => key)
+                    .filter((key) => !this.uniqueLabelsByCurrentRecord.has(key));
 
-                    this.insertNewField(key);
-                    nextTick(() => this.triggerValidation(true));
+
+                if (missingFields.length) {
+                    missingFields.forEach((key) => this.insertNewField(key));
+
+                    nextTick(() => this.triggerValidation(missingFields.length === 1));
                     return true;
                 }
             },
@@ -210,6 +213,16 @@
                     this.uniqueLabelsByCurrentRecord.clear();
                     this.createNewField();
                 });
+            },
+
+            initializeForm() {
+                if (this.store.getUniqueHeaderTitles.length) {
+                    return this.createNewField();
+                }
+
+                for (const key of validationRules.keys()) {
+                    this.insertNewField(key);
+                }
             },
         },
     });

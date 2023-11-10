@@ -9,6 +9,11 @@
             />
             {{ label }}
         </label>
+        <input
+            v-if="isFilterInstrument"
+            v-model="value"
+            type="text"
+        />
     </li>
 </template>
 
@@ -28,9 +33,17 @@
                 type: Boolean,
                 required: true,
             },
+            isFilterInstrument: {
+                type: Boolean,
+                default: false,
+            },
         },
 
         emits: [eventBusEmitNames.UPDATE_CHECKED_VALUE],
+
+        data: () => ({
+            value: '',
+        }),
 
         methods: {
             onChange(event: Event) {

@@ -30,13 +30,13 @@
     import { uid } from 'uid/single';
     import TableRowItem from '@/components/TableRowItem.vue';
     import TableRowHeader from '@/components/TableRowHeader.vue';
-    import { ITableItem } from '@/interfaces/ITableItem';
+    import { ITableItem, TABLE_ITEM_STATIC_KEYS } from '@/interfaces/ITableItem';
     import { useStore } from '@/store';
     import { EventBus } from '@/services/eventBus';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
     import { ISortRule } from '@/interfaces/ISortRule';
 
-    const TABLE_ITEM_INDEX = 'table-key-';
+    const LOCALSTORAGE_TABLE_ITEM_KEY = 'table-item-timestamp-';
 
     export default defineComponent({
         name: 'TableMain',
@@ -71,28 +71,17 @@
         },
 
         created() {
-            const localStorageKey = Object.keys(localStorage);
-
-            for (const key of localStorageKey) {
-                if (!key.startsWith(TABLE_ITEM_INDEX)) { continue; }
-
-                this.tableItems.push(
-                    JSON.parse(localStorage.getItem(key) as string),
-                );
-            }
-
-            EventBus.$on<Omit<ITableItem, '_id'>>(eventBusEmitNames.CREATE_NEW_RECORD, (newRecord) => {
-                this.tableItems.push({ _id: uid(), ...newRecord });
-                this.setToLocalStorage(this.tableItems.at(-1)!, this.tableItems.length);
-            });
+            this.initializeTableItems();
+            EventBus.$on(eventBusEmitNames.CREATE_NEW_RECORD, this.createTableItem);
         },
 
         methods: {
             getTableUniqueLabels() {
                 const tableUniqueKeys = new Set<string>();
+
                 for (const item of this.tableItems) {
                     for (const itemKey in item) {
-                        if (itemKey === '_id') { continue; }
+                        if (TABLE_ITEM_STATIC_KEYS.has(itemKey)) { continue; }
 
                         tableUniqueKeys.add(itemKey);
                     }
@@ -101,18 +90,19 @@
                 return tableUniqueKeys;
             },
 
+            createTableItem(newRecord: Omit<ITableItem, '_id' | '_timestamp'>) {
+                this.tableItems.push({
+                    _id: uid(),
+                    _timestamp: Date.now(),
+                    ...newRecord,
+                });
+                this.setToLocalStorage(this.tableItems.at(-1)!);
+            },
+
             removeTableItem(itemID: string) {
                 const index = this.tableItems.findIndex((item) => item._id === itemID);
                 this.tableItems.splice(index, 1);
                 this.removeFromLocalStorage(itemID);
-            },
-
-            setToLocalStorage(item: ITableItem, indexInList: number) {
-                localStorage.setItem(TABLE_ITEM_INDEX + indexInList, JSON.stringify(item));
-            },
-
-            removeFromLocalStorage(itemID: string) {
-                localStorage.removeItem(TABLE_ITEM_INDEX + itemID);
             },
 
             sortItems(newSortRules: ISortRule[]) {
@@ -138,6 +128,29 @@
                 });
 
                 return copyTableItems;
+            },
+
+            setToLocalStorage(item: ITableItem) {
+                localStorage.setItem(LOCALSTORAGE_TABLE_ITEM_KEY + item._id, JSON.stringify(item));
+            },
+
+            removeFromLocalStorage(itemID: string) {
+                localStorage.removeItem(LOCALSTORAGE_TABLE_ITEM_KEY + itemID);
+            },
+
+            initializeTableItems() {
+                const localItems = [];
+
+                for (const key of Object.keys(localStorage)) {
+                    if (!key.startsWith(LOCALSTORAGE_TABLE_ITEM_KEY)) { continue; }
+
+                    localItems.push(
+                        JSON.parse(localStorage.getItem(key) as string),
+                    );
+                }
+
+                localItems.sort((a: ITableItem, b: ITableItem) => +a._timestamp - +b._timestamp);
+                this.tableItems = localItems;
             },
         },
     });

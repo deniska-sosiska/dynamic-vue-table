@@ -1,6 +1,6 @@
 <template>
     <article
-        v-if="showInstruments"
+        v-show="showInstruments"
         class="instruments-panel"
     >
         <InstrumentsPanelFilter />
