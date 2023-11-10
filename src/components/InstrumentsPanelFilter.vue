@@ -9,6 +9,8 @@
             checkbox-list-label="Exclude"
             :header-items="store.getUniqueHeaderTitles"
         />
+
+        <button @click="onClick">Click me</button>
     </div>
 </template>
 
@@ -26,5 +28,11 @@
         data: () => ({
             store: useStore(),
         }),
+
+        methods: {
+            onClick() {
+                // this.store.updateFilterRules('key', 'value');
+            }
+        },
     });
 </script>

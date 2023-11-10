@@ -18,6 +18,7 @@
     import { ITableHeader } from '@/interfaces/ITableHeader';
     import InstrumentsListItem from '@/components/InstrumentsListItem.vue';
     import { useStore } from '@/store';
+    import { eventBusEmitNames } from '@/services/eventBusEmitNames';
 
     export default defineComponent({
         name: 'InstrumentsList',
@@ -36,26 +37,25 @@
             },
         },
 
+        emits: [eventBusEmitNames.UPDATE_CHECKED_LIST],
+
         data: () => ({
             store: useStore(),
             checkedItems: [] as ITableHeader[],
         }),
 
-        watch: {
-            checkedItems: {
-                deep: true,
-                handler(nv: ITableHeader[]) {
-                }
-            },
-        },
-
         methods: {
-            updateSortList(label: string, checked: boolean) {
+            updateCheckedValue(label: string, checked: boolean) {
                 if (checked) {
                     return this.checkedItems.push(label);
                 }
 
                 this.checkedItems = this.checkedItems.filter((i) => i !== label);
+            },
+
+            updateSortList(label: string, checked: boolean) {
+                this.updateCheckedValue(label, checked);
+                this.$emit(eventBusEmitNames.UPDATE_CHECKED_LIST, this.checkedItems);
             },
 
             isChecked(label: string) {

@@ -13,7 +13,7 @@
 
             <tbody>
                 <TableRowItem
-                    v-for="(item, index) of tableItems"
+                    v-for="(item, index) of sortedItems"
                     :key="item._id"
                     :header-titles="store.getUniqueHeaderTitles"
                     :table-item="item"
@@ -34,6 +34,7 @@
     import { useStore } from '@/store';
     import { EventBus } from '@/services/eventBus';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
+    import { ISortRule } from '@/interfaces/ISortRule';
 
     const TABLE_ITEM_INDEX = 'table-key-';
 
@@ -52,7 +53,11 @@
         computed: {
             showTable() {
                 return this.tableItems.length;
-            }
+            },
+
+            sortedItems() {
+                return this.sortItems(this.store.sortRules);
+            },
         },
 
         watch: {
@@ -108,6 +113,31 @@
 
             removeFromLocalStorage(itemID: string) {
                 localStorage.removeItem(TABLE_ITEM_INDEX + itemID);
+            },
+
+            sortItems(newSortRules: ISortRule[]) {
+                if (!newSortRules.length) { return this.tableItems; }
+
+                const copyTableItems = [...this.tableItems];
+
+                copyTableItems.sort((a, b) => {
+                    for (const rule of newSortRules) {
+                        const fieldByKeyA = a[rule];
+                        const fieldByKeyB = b[rule];
+
+                        if (fieldByKeyA !== undefined && fieldByKeyB !== undefined) {
+                            if (fieldByKeyA > fieldByKeyB) { return 1; }
+                            if (fieldByKeyA < fieldByKeyB) { return -1; }
+                        }
+
+                        if (fieldByKeyA === undefined && fieldByKeyB !== undefined) { return 1; }
+                        if (fieldByKeyB === undefined && fieldByKeyA !== undefined) { return -1; }
+                    }
+
+                    return 0;
+                });
+
+                return copyTableItems;
             },
         },
     });

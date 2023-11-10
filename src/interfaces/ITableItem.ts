@@ -1,4 +1,4 @@
 export interface ITableItem {
     _id: string;
-    [key: string]: string;
+    [key: string]: string | undefined;
 }
