@@ -16,6 +16,10 @@ html, body {
     overflow: hidden auto;
 }
 
+main {
+    width: 100%;
+}
+
 p, span, a, ul, ol, h1, h2, h3, h4, h5, h6,
 label, input, textarea, div, button, th, tr, td {
     //font-family: "Comfortaa", serif;
@@ -23,4 +27,8 @@ label, input, textarea, div, button, th, tr, td {
 
 a, button {
     cursor: pointer;
+}
+
+.text-center {
+    text-align: center;
 }

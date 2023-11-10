@@ -1,0 +1,17 @@
+table {
+    th, td {
+        min-width: 100px;
+    }
+
+    td.empty {
+        text-align: center;
+    }
+
+    td.remove-item {
+        cursor: pointer;
+    }
+
+    th.small-th {
+        width: 24px;
+    }
+}

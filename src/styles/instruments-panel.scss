@@ -1,0 +1,61 @@
+@use "@picocss/pico/scss/_variables.scss" as pico-variables;
+
+article.instruments-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-block: calc(var(--spacing) * 1.5);
+
+    :where(.instruments-panel-filter, .instruments-panel-sort) {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        > span {
+            min-width: 75px;
+        }
+        details[role="list"] {
+            margin-bottom: 0;
+            summary {
+                height: 40px;
+                padding-block: 0;
+                padding-inline: 20px 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            ul {
+                max-height: 400px;
+                overflow: hidden auto;
+            }
+        }
+    }
+
+    .instruments-panel-filter {
+        details > ul {
+            right: unset;
+        }
+    }
+
+    .instruments-panel-sort {
+        details > ul {
+            left: unset;
+        }
+    }
+
+    @media screen and (max-width: map-get(pico-variables.$breakpoints, md)) {
+        gap: 35px;
+        flex-wrap: wrap;
+        padding-right: calc(var(--spacing) * 1.5);
+        padding-block: calc(var(--block-spacing-horizontal) * 1.5) calc(var(--block-spacing-horizontal) * 2);
+
+        :where(.instruments-panel-filter, .instruments-panel-sort) {
+            width: 100%;
+            display: grid;
+            details {
+                width: 100%;
+            }
+        }
+    }
+}
