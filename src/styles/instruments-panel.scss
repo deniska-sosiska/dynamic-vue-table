@@ -13,6 +13,7 @@ article.instruments-panel {
         > span {
             min-width: 75px;
         }
+
         details[role="list"] {
             margin-bottom: 0;
             summary {
@@ -26,7 +27,16 @@ article.instruments-panel {
 
             ul {
                 max-height: 400px;
+                max-width: 350px;
                 overflow: hidden auto;
+                min-width: 280px;
+                label > span {
+                    white-space: initial;
+                }
+                input[id|="filter-input"] {
+                    min-width: 300px;
+                    height: 40px;
+                }
             }
         }
     }
@@ -52,9 +62,25 @@ article.instruments-panel {
         :where(.instruments-panel-filter, .instruments-panel-sort) {
             width: 100%;
             display: grid;
-            details {
+            details[role="list"] {
                 width: 100%;
+                ul {
+                    max-width: 100%;
+                    min-width: 100%;
+                }
+                li > input[id|="filter-input"] {
+                    min-width: unset;
+                    width: 100%;
+                }
             }
+        }
+
+        .instruments-panel-filter details > ul {
+            right: 0;
+        }
+
+        .instruments-panel-sort details > ul {
+            left: 0;
         }
     }
 }

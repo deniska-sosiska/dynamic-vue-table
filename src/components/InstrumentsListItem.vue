@@ -2,16 +2,18 @@
     <li>
         <label>
             <input
-                :id="`checkbox-${label.replace(' ', '-')}`"
+                :id="`checkbox-${validID}`"
                 type="checkbox"
                 :checked="isChecked"
                 @change="onChange"
             />
-            {{ label }}
+            <span>{{ label }}</span>
         </label>
         <input
-            v-if="isFilterInstrument"
+            v-if="isFilterInstrument && isChecked"
+            :id="`filter-input-${validID}`"
             v-model="value"
+            :placeholder="`Type your ${label} filter...`"
             type="text"
         />
     </li>
@@ -44,6 +46,12 @@
         data: () => ({
             value: '',
         }),
+
+        computed: {
+            validID() {
+                return this.label.replace(' ', '-');
+            },
+        },
 
         methods: {
             onChange(event: Event) {
