@@ -7,7 +7,7 @@
             </header>
 
             <form @submit.prevent="onSubmit">
-                <div class="form-fields">
+                <fieldset>
                     <FormField
                         v-for="(field) of newRecord"
                         ref="formField"
@@ -17,7 +17,7 @@
                         @update-field-details="updateRecordDetails"
                         @remove-record-field="removeRecordField"
                     />
-                </div>
+                </fieldset>
 
                 <footer class="button-group">
                     <button

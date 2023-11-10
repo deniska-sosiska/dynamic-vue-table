@@ -9,7 +9,7 @@
             :aria-invalid="isLabelInvalid"
             @focus.prevent.stop="clearInvalidStatus('label')"
             @blur.prevent.stop="onChangeLabel"
-            @keypress.enter="onEnterLabel"
+            @keypress.enter.prevent="onEnterLabel"
         />
 
         <span
@@ -22,7 +22,7 @@
         <img
             :src="isLabelEditing ? acceptImageUrl : pencilImageUrl"
             :class="{ 'scale': !isLabelEditing }"
-            @click.prevent.stop="labelEditAction"
+            @click.prevent.stop="labelEditAction()"
         />
 
         <img
@@ -135,7 +135,7 @@
                 }
             },
 
-            labelEditAction() {
+            labelEditAction(isEnterEvent?: boolean) {
                 if (!this.isLabelEditing) {
                     return this.changeLabelEditingStatus();
                 }
@@ -145,7 +145,7 @@
                 }
 
                 this.saveNewRecordDetails('label');
-                this.changeLabelEditingStatus();
+                this.changeLabelEditingStatus(isEnterEvent, isEnterEvent);
             },
 
             saveNewRecordDetails(type: 'label' | 'field') {
@@ -172,7 +172,7 @@
 
             onEnterLabel(event: Event) {
                 this.onChangeLabel(event);
-                this.labelEditAction();
+                this.labelEditAction(true);
             },
 
             onChangeField(event: Event) {
@@ -180,11 +180,16 @@
                 this.saveNewRecordDetails('field');
             },
 
-            changeLabelEditingStatus(withoutFocus?: boolean) {
+            async changeLabelEditingStatus(withoutFocus?: boolean, isEnterEvent?: boolean) {
                 this.isLabelEditing = !this.isLabelEditing;
 
                 if (this.isLabelEditing && !withoutFocus) {
-                    nextTick(() => (this.$refs.labelInputRef as HTMLInputElement)?.focus());
+                    return nextTick().then(() => (this.$refs.labelInputRef as HTMLInputElement)?.focus());
+                }
+
+                if (!this.isLabelEditing && isEnterEvent) {
+                    await nextTick().then(() => (this.$refs.labelInputRef as HTMLInputElement)?.blur());
+                    await nextTick().then(() => (this.$refs.fieldInputRef as HTMLInputElement)?.focus());
                 }
             },
 

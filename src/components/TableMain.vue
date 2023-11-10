@@ -35,7 +35,7 @@
     import { EventBus } from '@/services/eventBus';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
 
-    const TABLE_KEY = 'table-key-';
+    const TABLE_ITEM_INDEX = 'table-key-';
 
     export default defineComponent({
         name: 'TableMain',
@@ -69,7 +69,7 @@
             const localStorageKey = Object.keys(localStorage);
 
             for (const key of localStorageKey) {
-                if (!key.startsWith(TABLE_KEY)) { continue; }
+                if (!key.startsWith(TABLE_ITEM_INDEX)) { continue; }
 
                 this.tableItems.push(
                     JSON.parse(localStorage.getItem(key) as string),
@@ -78,7 +78,7 @@
 
             EventBus.$on<Omit<ITableItem, '_id'>>(eventBusEmitNames.CREATE_NEW_RECORD, (newRecord) => {
                 this.tableItems.push({ _id: uid(), ...newRecord });
-                this.setToLocalStorage(this.tableItems.at(-1)!);
+                this.setToLocalStorage(this.tableItems.at(-1)!, this.tableItems.length);
             });
         },
 
@@ -102,12 +102,12 @@
                 this.removeFromLocalStorage(itemID);
             },
 
-            setToLocalStorage(item: ITableItem) {
-                localStorage.setItem(TABLE_KEY + item._id, JSON.stringify(item));
+            setToLocalStorage(item: ITableItem, indexInList: number) {
+                localStorage.setItem(TABLE_ITEM_INDEX + indexInList, JSON.stringify(item));
             },
 
             removeFromLocalStorage(itemID: string) {
-                localStorage.removeItem(TABLE_KEY + itemID);
+                localStorage.removeItem(TABLE_ITEM_INDEX + itemID);
             },
         },
     });
