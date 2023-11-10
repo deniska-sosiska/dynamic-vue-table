@@ -12,7 +12,7 @@
     import { defineComponent } from 'vue';
     import InstrumentsPanelFilter from '@/components/InstrumentsPanelFilter.vue';
     import InstrumentsPanelSort from '@/components/InstrumentsPanelSort.vue';
-    import { useTableUniqueLabelsStore } from '@/store';
+    import { useStore } from '@/store';
 
     export default defineComponent({
         name: 'InstrumentsPanel',
@@ -22,12 +22,12 @@
         },
 
         data: () => ({
-            tableUniqueLabelsStore: useTableUniqueLabelsStore(),
+            store: useStore(),
         }),
 
         computed: {
             showInstruments() {
-                return this.tableUniqueLabelsStore.tableUniqueLabels.size;
+                return this.store.tableUniqueLabels.size;
             },
         },
     });

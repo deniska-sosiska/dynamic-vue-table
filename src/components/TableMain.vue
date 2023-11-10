@@ -7,7 +7,7 @@
         >
             <thead>
                 <TableRowHeader
-                    :header-titles="tableUniqueLabelsStore.getUniqueHeaderTitles"
+                    :header-titles="store.getUniqueHeaderTitles"
                 />
             </thead>
 
@@ -15,7 +15,7 @@
                 <TableRowItem
                     v-for="(item, index) of tableItems"
                     :key="item._id"
-                    :header-titles="tableUniqueLabelsStore.getUniqueHeaderTitles"
+                    :header-titles="store.getUniqueHeaderTitles"
                     :table-item="item"
                     :table-index="index + 1"
                     @remove-table-item="removeTableItem"
@@ -31,7 +31,7 @@
     import TableRowItem from '@/components/TableRowItem.vue';
     import TableRowHeader from '@/components/TableRowHeader.vue';
     import { ITableItem } from '@/interfaces/ITableItem';
-    import { useTableUniqueLabelsStore } from '@/store';
+    import { useStore } from '@/store';
     import { EventBus } from '@/services/eventBus';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
 
@@ -45,7 +45,7 @@
         },
 
         data: () => ({
-            tableUniqueLabelsStore: useTableUniqueLabelsStore(),
+            store: useStore(),
             tableItems: [] as ITableItem[],
         }),
 
@@ -60,7 +60,7 @@
                 deep: true,
                 handler() {
                     const ul = this.getTableUniqueLabels();
-                    this.tableUniqueLabelsStore.updateTableUniqueLabelsState(ul);
+                    this.store.updateTableUniqueLabelsState(ul);
                 },
             },
         },

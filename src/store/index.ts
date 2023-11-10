@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ITableHeader } from '@/interfaces/ITableHeader';
 
-export const useTableUniqueLabelsStore = defineStore('TableUniqueLabelsStore', {
+export const useStore = defineStore('index-store', {
     state: () => ({
         tableUniqueLabels: new Set<string>(),
     }),

@@ -3,11 +3,11 @@
         <span>Filter By:</span>
         <InstrumentsList
             checkbox-list-label="Include"
-            :items="tableUniqueLabelsStore.getUniqueHeaderTitles"
+            :header-items="store.getUniqueHeaderTitles"
         />
         <InstrumentsList
             checkbox-list-label="Exclude"
-            :items="tableUniqueLabelsStore.getUniqueHeaderTitles"
+            :header-items="store.getUniqueHeaderTitles"
         />
     </div>
 </template>
@@ -15,7 +15,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import InstrumentsList from '@/components/InstrumentsList.vue';
-    import { useTableUniqueLabelsStore } from '@/store';
+    import { useStore } from '@/store';
 
     export default defineComponent({
         name: 'InstrumentsPanelFilter',
@@ -24,7 +24,7 @@
         },
 
         data: () => ({
-            tableUniqueLabelsStore: useTableUniqueLabelsStore(),
+            store: useStore(),
         }),
     });
 </script>

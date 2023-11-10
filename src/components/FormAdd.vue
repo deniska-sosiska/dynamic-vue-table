@@ -44,7 +44,7 @@
     import { EventBus } from '@/services/eventBus';
     import { INewRecord } from '@/interfaces/INewRecord';
     import { IRecordUpdateDetails } from '@/interfaces/IRecordUpdateDetails';
-    import { useTableUniqueLabelsStore } from '@/store';
+    import { useStore } from '@/store';
     import { TRIGGER_VALIDATION_FUNCTION_NAME } from '@/services/triggerValidationFunctionName';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
     import { validationRules } from '@/services/validationRules';
@@ -56,9 +56,9 @@
         },
 
         data: () => ({
+            store: useStore(),
             newRecord: [] as INewRecord[],
             uniqueLabelsByCurrentRecord: new Set() as Set<string>,
-            tableUniqueLabelsStore: useTableUniqueLabelsStore(),
         }),
 
         watch: {
@@ -75,7 +75,7 @@
 
         created() {
             const unsubscribe = this.$watch(
-                'tableUniqueLabelsStore.getUniqueHeaderTitles',
+                'store.getUniqueHeaderTitles',
                 () => {
                     this.createNewField();
                     unsubscribe();
@@ -100,7 +100,7 @@
             },
 
             createNewField() {
-                for (const uniqueHeaderTitle of this.tableUniqueLabelsStore.getUniqueHeaderTitles) {
+                for (const uniqueHeaderTitle of this.store.getUniqueHeaderTitles) {
                     if (this.uniqueLabelsByCurrentRecord.has(uniqueHeaderTitle)) {
                         continue;
                     }

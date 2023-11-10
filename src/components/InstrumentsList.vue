@@ -3,7 +3,7 @@
         <summary aria-haspopup="listbox">{{ checkboxListLabel }}</summary>
         <ul role="listbox">
             <InstrumentsListItem
-                v-for="(item) of items"
+                v-for="(item) of headerItems"
                 :key="item"
                 :label="item"
                 :is-checked="isChecked(item)"
@@ -17,6 +17,7 @@
     import { defineComponent, PropType } from 'vue';
     import { ITableHeader } from '@/interfaces/ITableHeader';
     import InstrumentsListItem from '@/components/InstrumentsListItem.vue';
+    import { useStore } from '@/store';
 
     export default defineComponent({
         name: 'InstrumentsList',
@@ -29,15 +30,24 @@
                 type: String,
                 required: true,
             },
-            items: {
+            headerItems: {
                 type: Array as PropType<ITableHeader[]>,
                 required: true,
             },
         },
 
         data: () => ({
+            store: useStore(),
             checkedItems: [] as ITableHeader[],
         }),
+
+        watch: {
+            checkedItems: {
+                deep: true,
+                handler(nv: ITableHeader[]) {
+                }
+            },
+        },
 
         methods: {
             updateSortList(label: string, checked: boolean) {
