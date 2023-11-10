@@ -1,93 +1,26 @@
-main {
-    width: 100%;
+@font-face {
+    //font-family: "Comfortaa";
+    //src: url("../../public/Comfortaa-Regular.ttf");
 }
 
-article {
-    max-width: min(800px, calc(100vw - 30px));
-    width: 100%;
-    header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.form-container {
-    width: 100%;
-    padding-inline: 15px;
-    display: flex;
-    justify-content: center;
-
-    form {
-        label {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            height: 40px;
-
-            input {
-                margin-bottom: 0 !important;
-                max-width: 220px !important;
-                height: 36px !important;
-            }
-
-            img {
-                padding-left: 5px;
-                &.scale {
-                    transform: scale(0.8);
-                }
-                &.remove {
-                    margin-left: auto;
-                    margin-right: 5px;
-                }
-            }
-
-            &:hover {
-                cursor: pointer;
-            }
-        }
-
-        input + small {
-            visibility: hidden;
-        }
-        input[aria-invalid="true"] + small {
-            visibility: visible;
-        }
-
-        .button-group {
-            width: 100%;
-            display: flex;
-            gap: 15px;
-        }
-        button {
-            margin-bottom: 0;
-            &:first-child {
-                width: 60%;
-            }
-        }
-    }
+html, body {
+    min-height: 100vh;
+    min-width: 100vw;
+    max-width: 100vw;
+    overflow: hidden auto;
 }
 
-table {
-    th, td {
-        min-width: 100px;
-    }
-
-    td.empty {
-        text-align: center;
-    }
-
-    td.remove-item {
-        cursor: pointer;
-    }
-
-    th.small-th {
-        width: 24px;
-    }
+p, span, a, ul, ol, h1, h2, h3, h4, h5, h6,
+label, input, textarea, div, button, th, tr, td {
+    //font-family: "Comfortaa", serif;
 }
 
-.text-center {
-    text-align: center;
+a, button {
+    cursor: pointer;
 }

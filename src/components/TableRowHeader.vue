@@ -9,7 +9,7 @@
             {{ title }}
         </th>
         <th class="small-th text-center" scope="col">
-            <img src="@/assets/trash.png" alt="" />
+            <img src="/src/assets/trash.png" alt="" />
         </th>
     </tr>
 </template>

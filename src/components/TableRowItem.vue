@@ -15,7 +15,7 @@
             class="remove-item text-center"
             @click="removeItem"
         >
-            <img src="@/assets/remove.png" />
+            <img src="/src/assets/remove.png" />
         </td>
     </tr>
 </template>

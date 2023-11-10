@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import vue from '@vitejs/plugin-vue';
 import checker from 'vite-plugin-checker';
+import legacy from '@vitejs/plugin-legacy';
 
 export default defineConfig({
     server: {
@@ -16,6 +17,7 @@ export default defineConfig({
     },
     plugins: [
         vue({}),
+        legacy({ targets: ['> 0.05%'] }),
         checker({
             vueTsc: true,
             eslint: { lintCommand: 'eslint ./src --ext .js,.ts,.vue' },

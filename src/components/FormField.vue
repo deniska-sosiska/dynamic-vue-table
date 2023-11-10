@@ -14,19 +14,19 @@
 
         <span
             v-else
-            @click.prevent.stop="changeLabelEditingStatus"
+            @click.prevent.stop="changeLabelEditingStatus()"
         >
             {{ localLabel }}
         </span>
 
         <img
-            :src="`src/assets/${isLabelEditing ? 'accept' : 'pencil'}.png`"
+            :src="isLabelEditing ? acceptImageUrl : pencilImageUrl"
             :class="{ 'scale': !isLabelEditing }"
             @click.prevent.stop="labelEditAction"
         />
 
         <img
-            src="src/assets/remove.png"
+            src="/src/assets/remove.png"
             class="remove"
             @click.prevent.stop="removeField"
         />
@@ -44,10 +44,13 @@
         @blur="onChangeField"
         @keypress.enter.prevent="onChangeField"
     />
-    <small>Make sure the field is not empty and consistent with validation rules</small>
+    <small v-if="isFieldInvalid">Make sure the field is not empty and consistent with validation rules</small>
 </template>
 
 <script lang="ts">
+    import pencilImageUrl from '@/assets/pencil.png?url';
+    import acceptImageUrl from '@/assets/accept.png?url';
+
     import { defineComponent, nextTick, PropType } from 'vue';
     import { INewRecord } from '@/interfaces/INewRecord';
     import { IRecordUpdateDetails } from '@/interfaces/IRecordUpdateDetails';
@@ -72,6 +75,8 @@
         emits: [eventBusEmitNames.UPDATE_FIELD_DETAILS, eventBusEmitNames.REMOVE_RECORD_FIELD],
 
         data: () => ({
+            pencilImageUrl,
+            acceptImageUrl,
             localLabel: '',
             localFieldValue: '',
             isLabelEditing: false,
@@ -228,7 +233,7 @@
                     }
                 }
 
-            }
+            },
         },
     });
 </script>

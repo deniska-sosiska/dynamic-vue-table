@@ -3,19 +3,21 @@
         <article>
             <header class="text-center">
                 Create a new record
-                <img src="@/assets/articles.png" alt="" />
+                <img src="/src/assets/articles.png" alt="" />
             </header>
 
             <form @submit.prevent="onSubmit">
-                <FormField
-                    v-for="(field) of newRecord"
-                    ref="formField"
-                    :key="field._id"
-                    :props-field-details="field"
-                    :unique-labels-by-current-record="uniqueLabelsByCurrentRecord"
-                    @update-field-details="updateRecordDetails"
-                    @remove-record-field="removeRecordField"
-                />
+                <div class="form-fields">
+                    <FormField
+                        v-for="(field) of newRecord"
+                        ref="formField"
+                        :key="field._id"
+                        :props-field-details="field"
+                        :unique-labels-by-current-record="uniqueLabelsByCurrentRecord"
+                        @update-field-details="updateRecordDetails"
+                        @remove-record-field="removeRecordField"
+                    />
+                </div>
 
                 <footer class="button-group">
                     <button
@@ -113,8 +115,10 @@
                 this.newRecord.push({
                     _id: uid(),
                     label: label ?? this.getRandomName(),
-                    field: 'Lorem Ipsum',
+                    field: uid(),
                 });
+
+                nextTick(this.moveScrollToDown);
             },
 
             removeRecordField(fieldID: string) {
@@ -124,11 +128,18 @@
 
             getRandomName() {
                 const randomNames = ['Flower', 'Butterfly', 'Mystique', 'Luminance', 'Dream'];
-                const name = randomNames[Math.floor(Math.random() * randomNames.length)];
-                if (this.uniqueLabelsByCurrentRecord.has(name)) {
-                    return uid();
+                for (const name of randomNames) {
+                    if (!this.uniqueLabelsByCurrentRecord.has(name)) {
+                        return name;
+                    }
                 }
-                return name;
+
+                return uid();
+            },
+
+            moveScrollToDown() {
+                const form = this.$el.querySelector('form');
+                form.scrollTo({ top: form.scrollHeight, behavior: 'smooth' });
             },
 
             triggerValidation(withFocus?: boolean) {

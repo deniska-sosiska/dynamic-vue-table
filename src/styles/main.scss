@@ -1,29 +1,3 @@
-
-@font-face {
-    //font-family: "Comfortaa";
-    //src: url("../../public/Comfortaa-Regular.ttf");
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    min-height: 100vh;
-    min-width: 100vw;
-    max-width: 100vw;
-    overflow-x: hidden;
-}
-
-p, span, a, ul, ol, h1, h2, h3, h4, h5, h6,
-label, input, textarea, div, button, th, tr, td {
-    //font-family: "Comfortaa", serif;
-}
-
-a, button {
-    cursor: pointer;
-}
-
 @import "base";
+@import "general";
+@import "scroll";

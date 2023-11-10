@@ -99,6 +99,7 @@
             removeTableItem(itemID: string) {
                 const index = this.tableItems.findIndex((item) => item._id === itemID);
                 this.tableItems.splice(index, 1);
+                this.removeFromLocalStorage(itemID);
             },
 
             setToLocalStorage(item: ITableItem) {

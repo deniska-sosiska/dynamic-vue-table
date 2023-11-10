@@ -6,9 +6,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --host"
   },
   "dependencies": {
     "@picocss/pico": "^1.5.10",
@@ -21,10 +21,12 @@
     "@types/node": "^20.9.0",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
+    "@vitejs/plugin-legacy": "^4.1.1",
     "@vitejs/plugin-vue": "^4.4.0",
     "eslint": "^8.53.0",
     "eslint-plugin-vue": "^9.18.1",
     "sass": "^1.69.5",
+    "terser": "^5.24.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vite-plugin-checker": "^0.6.2",
