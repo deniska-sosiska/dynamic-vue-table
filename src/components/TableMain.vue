@@ -30,11 +30,12 @@
     import { uid } from 'uid/single';
     import TableRowItem from '@/components/TableRowItem.vue';
     import TableRowHeader from '@/components/TableRowHeader.vue';
-    import { ITableItem, TABLE_ITEM_STATIC_KEYS } from '@/interfaces/ITableItem';
+    import { ITableItem, ITableItemPure, TABLE_ITEM_STATIC_KEYS } from '@/interfaces/ITableItem';
     import { useStore } from '@/store';
     import { EventBus } from '@/services/eventBus';
     import { eventBusEmitNames } from '@/services/eventBusEmitNames';
     import { ISortRule } from '@/interfaces/ISortRule';
+    import { IFiltersRuleRecords, IFiltersRuleRecordsKey } from '@/interfaces/IFilterRules';
 
     const LOCALSTORAGE_TABLE_ITEM_KEY = 'table-item-timestamp-';
 
@@ -58,6 +59,10 @@
             sortedItems() {
                 return this.sortItems(this.store.sortRules);
             },
+
+            filteredItems() {
+                return this.filterItems(this.store.filterRules);
+            }
         },
 
         watch: {
@@ -90,7 +95,7 @@
                 return tableUniqueKeys;
             },
 
-            createTableItem(newRecord: Omit<ITableItem, '_id' | '_timestamp'>) {
+            createTableItem(newRecord: ITableItemPure) {
                 this.tableItems.push({
                     _id: uid(),
                     _timestamp: Date.now(),
@@ -105,10 +110,32 @@
                 this.removeFromLocalStorage(itemID);
             },
 
-            sortItems(newSortRules: ISortRule[]) {
-                if (!newSortRules.length) { return this.tableItems; }
+            filterByType(type: IFiltersRuleRecordsKey, newFilterRules: IFiltersRuleRecords, item: ITableItem) {
+                if (newFilterRules[type].length === 0) {
+                    return true;
+                }
 
-                const copyTableItems = [...this.tableItems];
+                for (const filterRule of newFilterRules[type]) {
+                    const isCorresponds = Object.keys(filterRule).every((key) => (item[key] as string)?.includes(filterRule[key]));
+                    if (isCorresponds) {
+                        return type === 'include';
+                    }
+                }
+                return !(type === 'include');
+            },
+
+            filterItems(newFilterRules: IFiltersRuleRecords) {
+                if (!newFilterRules.include.length && !newFilterRules.exclude.length) { return this.tableItems; }
+
+                return this.tableItems
+                    .filter((item) => this.filterByType('include', newFilterRules, item))
+                    .filter((item) => this.filterByType('exclude', newFilterRules, item));
+            },
+
+            sortItems(newSortRules: ISortRule[]) {
+                if (!newSortRules.length) { return this.filteredItems; }
+
+                const copyTableItems = [...this.filteredItems];
 
                 copyTableItems.sort((a, b) => {
                     for (const rule of newSortRules) {

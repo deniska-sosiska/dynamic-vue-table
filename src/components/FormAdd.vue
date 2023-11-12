@@ -115,7 +115,7 @@
                 this.newRecord.push({
                     _id: uid(),
                     label: label ?? this.getRandomName(),
-                    field: uid(),
+                    field: '',
                 });
 
                 nextTick(this.moveScrollToDown);
@@ -179,15 +179,15 @@
                 this.triggerValidation();
                 await nextTick();
 
+                if (this.makeSureAllRequiredFieldsExist()) {
+                    return true;
+                }
+
                 if (this.validateFieldsBySelector('label > input[aria-invalid="true"]')) {
                     return true;
                 }
 
                 if (this.validateFieldsBySelector('label + input[aria-invalid="true"]')) {
-                    return true;
-                }
-
-                if (this.makeSureAllRequiredFieldsExist()) {
                     return true;
                 }
             },
