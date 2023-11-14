@@ -29,7 +29,7 @@ figure {
             padding: var(--block-spacing-horizontal) var(--block-spacing-vertical) 0;
             margin-bottom: 0;
 
-            max-height: 80vh;
+            max-height: 82vh;
             overflow: hidden auto;
 
             fieldset {
@@ -67,7 +67,7 @@ figure {
 
             footer {
                 position: sticky;
-                bottom: 0;
+                bottom: -1px;
                 background: var(--card-background-color);
                 padding-top: calc(var(--block-spacing-vertical) / 1.5);
                 padding-bottom: var(--block-spacing-vertical);

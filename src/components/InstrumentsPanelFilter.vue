@@ -5,14 +5,23 @@
             checkbox-list-label="Include"
             :header-items="store.getUniqueHeaderTitles"
             :is-filter-instrument="true"
-            @update-checked-list="updateIncludeCheckedList"
-        />
+            @update-instrument-rules="extendFilterRules('include', $event)"
+        >
+            <template #existing-rules>
+                <PrettyFilterRule :rules="store.filterRules.include" filter-type="include" />
+            </template>
+        </InstrumentsList>
+
         <InstrumentsList
             checkbox-list-label="Exclude"
             :header-items="store.getUniqueHeaderTitles"
             :is-filter-instrument="true"
-            @update-checked-list="updateExcludeCheckedList"
-        />
+            @update-instrument-rules="extendFilterRules('exclude', $event)"
+        >
+            <template #existing-rules>
+                <PrettyFilterRule :rules="store.filterRules.exclude" filter-type="exclude" />
+            </template>
+        </InstrumentsList>
     </div>
 </template>
 
@@ -20,38 +29,23 @@
     import { defineComponent } from 'vue';
     import { useStore } from '@/store';
     import InstrumentsList from '@/components/InstrumentsList.vue';
-    import { IFilterRuleValue } from '@/interfaces/IFilterRules';
+    import { IFilterRuleValue, IFiltersRuleRecordsKey } from '@/interfaces/IFilterRules';
+    import PrettyFilterRule from '@/components/PrettyFilterRule.vue';
 
     export default defineComponent({
         name: 'InstrumentsPanelFilter',
         components: {
             InstrumentsList,
+            PrettyFilterRule,
         },
 
         data: () => ({
             store: useStore(),
-            includeLabelList: [] as IFilterRuleValue[],
-            excludeLabelList: [] as IFilterRuleValue[],
         }),
 
-        // store.getUniqueHeaderTitles
-
-        mounted() {
-            this.excludeLabelList = this.store.getUniqueHeaderTitles;
-            this.includeLabelList = this.store.getUniqueHeaderTitles;
-        },
-
         methods: {
-            // onClick() {
-            //     // this.store.updateFilterRules('key', 'value');
-            // },
-
-            updateIncludeCheckedList(items: IFilterRuleValue[]) {
-
-            },
-
-            updateExcludeCheckedList(items: IFilterRuleValue[]) {
-
+            extendFilterRules(key: IFiltersRuleRecordsKey, newFilterRuleRecord: IFilterRuleValue) {
+                this.store.extendFilterRules(key, newFilterRuleRecord);
             },
         },
     });

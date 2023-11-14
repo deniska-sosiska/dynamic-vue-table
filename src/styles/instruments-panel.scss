@@ -36,6 +36,30 @@ article.instruments-panel {
                 input[id|="filter-input"] {
                     min-width: 300px;
                     height: 40px;
+                    margin-block: 5px;
+                }
+                li.filters-save-button {
+                    background: var(--dropdown-background-color);
+                    position: sticky;
+                    bottom: 0;
+                    margin-bottom: 0;
+                    > button {
+                        padding: 5px;
+                        margin-block: 5px;
+                    }
+                }
+            }
+
+            code {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-block: 15px;
+                pre {
+                    margin-bottom: 0;
+                }
+                img {
+                    cursor: pointer;
                 }
             }
         }

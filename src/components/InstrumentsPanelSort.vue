@@ -4,7 +4,8 @@
         <InstrumentsList
             checkbox-list-label="Sort By"
             :header-items="store.getUniqueHeaderTitles"
-            @update-checked-list="updateResultCheckedList"
+            :is-sort-instrument="true"
+            @update-instrument-rules="updateResultCheckedList"
         />
     </div>
 </template>

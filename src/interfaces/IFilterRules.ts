@@ -1,8 +1,13 @@
 import { ITableHeader } from '@/interfaces/ITableHeader';
 
-export type IFilterRuleKey = 'include' | 'exclude';
-export type IFilterRuleValue = ITableHeader;
+export type IFiltersRuleRecordsKey = 'include' | 'exclude';
 
-export type IFilterRules = {
-    [key in IFilterRuleKey]: IFilterRuleValue[];
+export type IFilterRuleKey = ITableHeader;
+
+export interface IFilterRuleValue {
+    [key: IFilterRuleKey]: string;
+}
+
+export type IFiltersRuleRecords = {
+    [key in IFiltersRuleRecordsKey]: IFilterRuleValue[];
 }

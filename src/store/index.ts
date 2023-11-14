@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ITableHeader } from '@/interfaces/ITableHeader';
 import { ISortRule } from '@/interfaces/ISortRule';
-import { IFilterRuleKey, IFilterRules, IFilterRuleValue } from '@/interfaces/IFilterRules';
+import { IFiltersRuleRecordsKey, IFiltersRuleRecords, IFilterRuleValue } from '@/interfaces/IFilterRules';
 
 export const useStore = defineStore('index-store', {
     state: () => ({
@@ -10,7 +10,7 @@ export const useStore = defineStore('index-store', {
         filterRules: {
             include: [],
             exclude: [],
-        } as IFilterRules,
+        } as IFiltersRuleRecords,
     }),
 
     actions: {
@@ -24,21 +24,20 @@ export const useStore = defineStore('index-store', {
                 this.getUniqueHeaderTitles.map((i, index) => [i, index]),
             );
 
-            copySortRules.sort((a, b) => {
-                const orderA = dictionaryTableLabelsByOriginOrder.get(a)!;
-                const orderB = dictionaryTableLabelsByOriginOrder.get(b)!;
-
-                if (orderA > orderB) { return 1; }
-                if (orderA < orderB) { return -1; }
-                return 0;
-            });
+            copySortRules.sort((a, b) =>
+                dictionaryTableLabelsByOriginOrder.get(a)! - dictionaryTableLabelsByOriginOrder.get(b)!,
+            );
 
             this.sortRules = copySortRules;
         },
 
-        updateFilterRules(label: IFilterRuleKey, value: IFilterRuleValue[]) {
-            //
-        }
+        extendFilterRules(filterType: IFiltersRuleRecordsKey, rules: IFilterRuleValue) {
+            this.filterRules[filterType].push(rules);
+        },
+
+        removeFilterRule(filterType: IFiltersRuleRecordsKey, index: number) {
+            this.filterRules[filterType].splice(index, 1);
+        },
     },
 
     getters: {

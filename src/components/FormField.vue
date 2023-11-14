@@ -41,7 +41,7 @@
         :value="localFieldValue"
         :aria-invalid="isFieldInvalid"
         @focus="clearInvalidStatus('field')"
-        @blur="onChangeField"
+        @change="onChangeField"
         @keypress.enter.prevent="onChangeField"
     />
     <small v-if="isFieldInvalid">Make sure the field is not empty and consistent with validation rules</small>
